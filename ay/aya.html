@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>احبج اية ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red1:#ff4b4b;
+  --red2:#c31432;
+  --bg1:#020111;
+  --bg2:#0a0f25;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  height:100%;
+  overflow:hidden;
+  font-family:"Tajawal",system-ui;
+  color:#fff;
+  text-align:center;
+  background:linear-gradient(180deg,var(--bg1),var(--bg2));
+}
+
+/* ===== السماء والنجوم ===== */
+.sky{
+  position:fixed;inset:0;
+  background:linear-gradient(180deg,#01010a 0%,#0a0f25 100%);
+  overflow:hidden;
+  z-index:-3;
+}
+.star{
+  position:absolute;
+  width:2px;height:2px;
+  background:#fff;
+  border-radius:50%;
+  opacity:.8;
+  animation:twinkle 3s infinite ease-in-out;
+}
+@keyframes twinkle{
+  0%,100%{opacity:0.3}
+  50%{opacity:1}
+}
+
+/* ===== القمر ===== */
+.moon{
+  position:absolute;
+  top:60px;
+  left:50%;
+  transform:translateX(-50%);
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,#fff 0%,#f5f5f5 40%,#d9d9d9 70%,#aaa 100%);
+  box-shadow:0 0 70px 20px #fff5;
+}
+
+/* ===== النص ===== */
+h1{
+  margin-top:230px;
+  font-size:clamp(28px,8vw,52px);
+  font-weight:900;
+  background:linear-gradient(180deg,#fff,var(--red1));
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
+  text-shadow:0 0 15px #ff6f91,0 0 35px #ff3b60;
+}
+
+/* ===== القلب النابض ===== */
+.heart-container{
+  position:relative;
+  width:min(80vw,260px);
+  aspect-ratio:1/1;
+  margin:5vh auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.heart{
+  width:100%;height:100%;
+  filter:drop-shadow(0 0 30px #ff3b63aa);
+  animation:pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(0.95);}
+  50%{transform:scale(1.1);}
+}
+.heart svg{width:100%;height:100%}
+.heart path{
+  fill:url(#grad);
+  stroke:#ffb8c2;
+  stroke-width:1.5;
+  filter:drop-shadow(0 0 14px #ff4b5f);
+}
+
+/* ===== الزر ===== */
+button{
+  margin-top:10px;
+  padding:14px 38px;
+  font-size:clamp(16px,4vw,20px);
+  font-weight:700;
+  color:#fff;
+  border:none;
+  border-radius:50px;
+  background:linear-gradient(90deg,#ff4b2b,#ff416c,#ff6f91);
+  cursor:pointer;
+  transition:0.3s;
+  box-shadow:0 0 25px #ff6f91aa;
+}
+button:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 40px #ff6f91dd;
+}
+
+/* ===== الألعاب النارية ===== */
+canvas{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  z-index:-2;
+}
+</style>
+</head>
+<body>
+
+<div class="sky" id="sky">
+  <div class="moon"></div>
+</div>
+
+<h1>احبج اية ❤️</h1>
+
+<div class="heart-container">
+  <div class="heart">
+    <svg viewBox="0 0 1024 896" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="grad" cx="50%" cy="40%" r="65%">
+          <stop offset="0%" stop-color="#ffccd5"/>
+          <stop offset="30%" stop-color="#ff4b4b"/>
+          <stop offset="75%" stop-color="#c31432"/>
+          <stop offset="100%" stop-color="#7a0000"/>
+        </radialGradient>
+      </defs>
+      <path d="M512 184C460 110 354 66 262 94C162 125 90 220 96 334c5 93 58 168 126 228 83 74 183 140 284 218 101-78 201-144 284-218 68-60 121-135 126-228 6-114-66-209-166-240-92-28-198 16-250 90z"/>
+    </svg>
+  </div>
+</div>
+
+<button onclick="window.open('https://www.youtube.com/watch?v=HYXaIP69s-M&list=RDHYXaIP69s-M&start_radio=1','_blank')">
+
+  🌹 اضغطي هنا يا اية 🌹
+</button>
+
+<canvas id="fw"></canvas>
+
+<script>
+/* ===== توليد النجوم ===== */
+const sky=document.getElementById("sky");
+for(let i=0;i<200;i++){
+  const s=document.createElement("div");
+  s.classList.add("star");
+  s.style.top=Math.random()*100+"%";
+  s.style.left=Math.random()*100+"%";
+  s.style.animationDelay=(Math.random()*3)+"s";
+  s.style.width=(Math.random()*2+1)+"px";
+  s.style.height=s.style.width;
+  sky.appendChild(s);
+}
+
+/* ===== الألعاب النارية ===== */
+const c=document.getElementById("fw"),ctx=c.getContext("2d");
+let W,H;
+function resize(){W=innerWidth;H=innerHeight;c.width=W;c.height=H;}
+addEventListener("resize",resize);resize();
+const parts=[],colors=[0,20,40,300,330];
+function rand(a,b){return a+Math.random()*(b-a);}
+class Particle{
+  constructor(x,y,h){
+    this.x=x;this.y=y;this.h=h;
+    const a=Math.random()*Math.PI*2;
+    const s=rand(2,6);
+    this.vx=Math.cos(a)*s;
+    this.vy=Math.sin(a)*s;
+    this.life=rand(60,100);
+    this.alpha=1;
+  }
+  update(){
+    this.x+=this.vx;this.y+=this.vy;
+    this.vy+=0.05;this.vx*=0.98;this.vy*=0.98;
+    this.life--;this.alpha-=0.01;
+    const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,8);
+    g.addColorStop(0,`hsla(${this.h},100%,80%,${this.alpha})`);
+    g.addColorStop(1,"transparent");
+    ctx.fillStyle=g;
+    ctx.beginPath();ctx.arc(this.x,this.y,8,0,Math.PI*2);ctx.fill();
+    return this.life>0;
+  }
+}
+function burst(x,y){
+  const hue=colors[Math.floor(Math.random()*colors.length)];
+  for(let i=0;i<rand(50,100);i++)parts.push(new Particle(x,y,hue));
+}
+function loop(){
+  ctx.fillStyle="rgba(0,0,0,0.25)";
+  ctx.fillRect(0,0,W,H);
+  for(let i=parts.length-1;i>=0;i--) if(!parts[i].update()) parts.splice(i,1);
+  requestAnimationFrame(loop);
+}
+loop();
+addEventListener("click",e=>burst(e.clientX,e.clientY));
+addEventListener("touchstart",e=>{
+  const t=e.touches[0];burst(t.clientX,t.clientY);
+},{passive:true});
+</script>
+
+</body>
+</html>
